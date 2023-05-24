@@ -44,7 +44,7 @@ Endpoint https://ppm-api.gusdya.net/api/matakuliah
 |praktikum| praktikum | Boolean |
 |deskripsi| deskripsi | Text |
 
-## Github
+#### Github
 Akun github dari kelompok 2
 
 | Nama | Akun Github |
