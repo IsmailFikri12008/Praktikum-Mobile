@@ -49,9 +49,9 @@ Akun github dari kelompok 2
 
 | Nama | Akun Github |
 | ------ | ------ |
-| Mustofa |  |
+| Mustofa | https://github.com/mustofa855 |
 | Dean | https://github.com/Dean-Tr |
-| Faisal |  |
+| Faisal | https://github.com/FaisalIbnulHakim |
 | Gilang | https://github.com/Gilangdwi014 |
 | Ismail | https://github.com/IsmailFikri12008 |
 | Rifky |  |
