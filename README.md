@@ -1,8 +1,8 @@
 # *Praktikum Pemograman Mobile*
 -----
-## Kelompok 2
+## MobCrafter
 
-#### Anggota
+#### MobCrafter Development
 - Mustofa Firdaus - 203040030 (Ketua)
 - Dea Tirta Santika - 203040009
 - Faisal Ibnul Hakim - 203040028
@@ -12,7 +12,10 @@
 
 #### Tema Tugas Besar
 Membuat aplikasi yang dapat mengelola 3 entitas, kemudian data bisa disimpan di server dan di device dengan menggunakan Scaffold dengan menu drawer dan bottom sheet.
-Adapun tema yang dikerjakan adalah Perkuliahan yang memiliki entitas Dosen, Mahasiswa dan Matakuliah.
+Adapun tema yang dikerjakan adalah Perkuliahan yang memiliki entitas Dosen, Mahasiswa dan Matakuliah.SO
+
+### Software
+Software yang digunakan adalah Android Studio. Yang dimana Andorid Studio adalah Integrated Development Environment (IDE) resmi untuk pengembangan aplikasi Android dan menggunakan bahasa Pemrograman Kotlin.
 
 #### Entitas
 Entitas Dosen
