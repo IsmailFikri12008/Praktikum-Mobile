@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.ac.unpas.mobcrafter.persistences.AppDatabase
 import id.ac.unpas.mobcrafter.persistences.MatakuliahDao
+import id.ac.unpas.mobcrafter.persistences.DataDosenDao
 import javax.inject.Singleton
 
 @Module
@@ -29,5 +30,11 @@ object PersistenceModule {
     @Singleton
     fun provideMatakuliahDao(appDatabase: AppDatabase): MatakuliahDao {
         return appDatabase.matakuliahDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataDosenDao(appDatabase: AppDatabase): DataDosenDao {
+        return appDatabase.dataDosenDao()
     }
 }

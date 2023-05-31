@@ -5,8 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import id.ac.unpas.mobcrafter.networks.DataDosenApi
 import id.ac.unpas.mobcrafter.networks.MatakuliahApi
+import id.ac.unpas.mobcrafter.persistences.DataDosenDao
 import id.ac.unpas.mobcrafter.persistences.MatakuliahDao
+import id.ac.unpas.mobcrafter.repositories.DataDosenRepository
 import id.ac.unpas.mobcrafter.repositories.MatakuliahRepository
 
 @Module
@@ -19,5 +22,12 @@ object RepositoryModule {
         dao: MatakuliahDao
     ): MatakuliahRepository {
         return MatakuliahRepository(api, dao)
+    }
+
+    fun provideDataDosenRepository(
+        api: DataDosenApi,
+        dao: DataDosenDao
+    ): DataDosenRepository {
+        return DataDosenRepository(api, dao)
     }
 }
