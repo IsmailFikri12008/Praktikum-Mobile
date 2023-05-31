@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import id.ac.unpas.mobcrafter.networks.MahasiswaApi
 import id.ac.unpas.mobcrafter.networks.MatakuliahApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,5 +50,12 @@ object NetworkModule {
     fun provideMatakuliahApi(retrofit: Retrofit):
             MatakuliahApi {
         return retrofit.create(MatakuliahApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMahasiswaApi(retrofit: Retrofit):
+            MahasiswaApi {
+        return retrofit.create(MahasiswaApi::class.java)
     }
 }

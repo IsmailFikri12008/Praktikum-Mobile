@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import id.ac.unpas.mobcrafter.networks.MatakuliahApi
-import id.ac.unpas.mobcrafter.persistences.MatakuliahDao
+import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
 import id.ac.unpas.mobcrafter.repositories.MatakuliahRepository
 
 @Module
@@ -16,7 +16,7 @@ object RepositoryModule {
     @ViewModelScoped
     fun provideMatakuliahRepository(
         api: MatakuliahApi,
-        dao: MatakuliahDao
+        dao: PerkuliahanDao
     ): MatakuliahRepository {
         return MatakuliahRepository(api, dao)
     }

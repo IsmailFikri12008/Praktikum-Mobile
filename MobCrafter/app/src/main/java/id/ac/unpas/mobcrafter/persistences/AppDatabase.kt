@@ -6,5 +6,5 @@ import id.ac.unpas.mobcrafter.model.Matakuliah
 
 @Database(entities = [Matakuliah::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun matakuliahDao(): MatakuliahDao
+    abstract fun perkuliahanDao(): PerkuliahanDao
 }
