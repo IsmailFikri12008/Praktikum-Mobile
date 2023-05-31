@@ -8,26 +8,26 @@ import com.skydoves.sandwich.suspendOnSuccess
 import com.skydoves.whatif.whatIfNotNull
 import id.ac.unpas.mobcrafter.model.Matakuliah
 import id.ac.unpas.mobcrafter.networks.MatakuliahApi
-import id.ac.unpas.mobcrafter.persistences.MatakuliahDao
+import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
 import javax.inject.Inject
 
 class MatakuliahRepository @Inject constructor(
     private val api: MatakuliahApi,
-    private val dao: MatakuliahDao
+    private val dao: PerkuliahanDao
 ) : Repository {
     suspend fun loadItems(
         onSuccess: (List<Matakuliah>) -> Unit,
         onError: (List<Matakuliah>, String) -> Unit
     ) {
-        val list: List<Matakuliah> = dao.getList()
+        val list: List<Matakuliah> = dao.getListMatakuliah()
         api.all()
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
                 data.whatIfNotNull {
                     it.data?.let { list ->
-                        dao.insertAll(list)
+                        dao.insertAllMatakuliah(list)
                         val items: List<Matakuliah> =
-                            dao.getList()
+                            dao.getListMatakuliah()
                         onSuccess(items)
                     }
                 }
@@ -55,7 +55,7 @@ class MatakuliahRepository @Inject constructor(
     ) {
         val id = uuid4().toString()
         val item = Matakuliah(id, kode, nama, sks, praktikum, deskripsi)
-        dao.insertAll(item)
+        dao.insertAllMatakuliah(item)
         api.insert(item)
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
@@ -84,7 +84,7 @@ class MatakuliahRepository @Inject constructor(
         onError: (Matakuliah?, String) -> Unit
     ) {
         val item = Matakuliah(id, kode, nama, sks, praktikum, deskripsi)
-        dao.insertAll(item)
+        dao.insertAllMatakuliah(item)
         api.update(id, item)
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
@@ -106,7 +106,7 @@ class MatakuliahRepository @Inject constructor(
         id: String, onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        dao.delete(id)
+        dao.deleteMatakuliah(id)
         api.delete(id)
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
@@ -127,6 +127,6 @@ class MatakuliahRepository @Inject constructor(
     }
 
     suspend fun find(id: String) : Matakuliah? {
-        return dao.find(id)
+        return dao.findMatakuliah(id)
     }
 }
