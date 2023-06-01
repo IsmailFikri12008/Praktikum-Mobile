@@ -7,8 +7,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.ac.unpas.mobcrafter.persistences.AppDatabase
+
 import id.ac.unpas.mobcrafter.persistences.MatakuliahDao
 import id.ac.unpas.mobcrafter.persistences.DataDosenDao
+
+import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
+
 import javax.inject.Singleton
 
 @Module
@@ -21,15 +25,15 @@ object PersistenceModule {
             .databaseBuilder(
                 application,
                 AppDatabase::class.java,
-                "pengelolaan-matakuliah"
+                "pengelolaan-perkuliahan"
             )
             .fallbackToDestructiveMigration()
             .build()
     }
     @Provides
     @Singleton
-    fun provideMatakuliahDao(appDatabase: AppDatabase): MatakuliahDao {
-        return appDatabase.matakuliahDao()
+    fun providePerkuliahanDao(appDatabase: AppDatabase): PerkuliahanDao {
+        return appDatabase.perkuliahanDao()
     }
 
     @Provides
