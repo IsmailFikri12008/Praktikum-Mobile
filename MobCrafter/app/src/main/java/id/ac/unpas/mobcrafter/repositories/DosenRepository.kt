@@ -6,28 +6,29 @@ import com.skydoves.sandwich.suspendOnError
 import com.skydoves.sandwich.suspendOnException
 import com.skydoves.sandwich.suspendOnSuccess
 import com.skydoves.whatif.whatIfNotNull
-import id.ac.unpas.mobcrafter.model.DataDosen
-import id.ac.unpas.mobcrafter.networks.DataDosenApi
-import id.ac.unpas.mobcrafter.persistences.DataDosenDao
+import id.ac.unpas.mobcrafter.model.Dosen
+import id.ac.unpas.mobcrafter.model.Pendidikan
+import id.ac.unpas.mobcrafter.networks.DosenApi
+import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
 import javax.inject.Inject
 
-class DataDosenRepository @Inject constructor(
-    private val api: DataDosenApi,
-    private val dao: DataDosenDao
+class DosenRepository @Inject constructor(
+    private val api: DosenApi,
+    private val dao: PerkuliahanDao
 ) : Repository {
     suspend fun loadItems(
-        onSuccess: (List<DataDosen>) -> Unit,
-        onError: (List<DataDosen>, String) -> Unit
+        onSuccess: (List<Dosen>) -> Unit,
+        onError: (List<Dosen>, String) -> Unit
     ) {
-        val list: List<DataDosen> = dao.getList()
+        val list: List<Dosen> = dao.getListDosen()
         api.all()
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
                 data.whatIfNotNull {
                     it.data?.let { list ->
-                        dao.insertAll(list)
-                        val items: List<DataDosen> =
-                            dao.getList()
+                        dao.insertAllDosen(list)
+                        val items: List<Dosen> =
+                            dao.getListDosen()
                         onSuccess(items)
                     }
                 }
@@ -47,14 +48,15 @@ class DataDosenRepository @Inject constructor(
     suspend fun insert(
         nidn: String,
         nama: String,
-        gelarDepan: String,
-        gelarBelakang: String,
-        onSuccess: (DataDosen) -> Unit,
-        onError: (DataDosen?, String) -> Unit
+        gelar_depan: String,
+        gelar_belakang: String,
+        pendidikan: Pendidikan,
+        onSuccess: (Dosen) -> Unit,
+        onError: (Dosen?, String) -> Unit
     ) {
         val id = uuid4().toString()
-        val item = DataDosen(id, nidn, nama, gelarDepan, gelarBelakang)
-        dao.insertAll(item)
+        val item = Dosen(id, nidn, nama, gelar_depan, gelar_belakang,pendidikan)
+        dao.insertAllDosen(item)
         api.insert(item)
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
@@ -76,13 +78,14 @@ class DataDosenRepository @Inject constructor(
         id: String,
         nidn: String,
         nama: String,
-        gelarDepan: String,
-        gelarBelakang: String,
-        onSuccess: (DataDosen) -> Unit,
-        onError: (DataDosen?, String) -> Unit
+        gelar_depan: String,
+        gelar_belakang: String,
+        pendidikan: Pendidikan,
+        onSuccess: (Dosen) -> Unit,
+        onError: (Dosen?, String) -> Unit
     ) {
-        val item = DataDosen(id, nidn, nama, gelarDepan, gelarBelakang)
-        dao.insertAll(item)
+        val item = Dosen(id, nidn, nama, gelar_depan, gelar_belakang,pendidikan)
+        dao.insertAllDosen(item)
         api.update(id, item)
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
@@ -104,7 +107,7 @@ class DataDosenRepository @Inject constructor(
         id: String, onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        dao.delete(id)
+        dao.deleteDosen(id)
         api.delete(id)
             // handle the case when the API request gets a success response.
             .suspendOnSuccess {
@@ -124,6 +127,6 @@ class DataDosenRepository @Inject constructor(
             }
     }
 
-    suspend fun find(id: String) : DataDosen? {
-        return dao.find(id) }
+    suspend fun find(id: String) : Dosen? {
+        return dao.findDosen(id) }
 }

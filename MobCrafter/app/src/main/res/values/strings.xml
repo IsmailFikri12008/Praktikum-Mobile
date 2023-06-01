@@ -2,5 +2,5 @@
     <string name="app_name">Mob Crafter</string>
     <string name="home">Home</string>
     <string name="pengelolaan_matakuliah">Pengelolaan Matakuliah</string>
-    <string name="setting">Setting</string>
+    <string name="pengelolaan_dosen">Pengelolaan Dosen</string>
 </resources>

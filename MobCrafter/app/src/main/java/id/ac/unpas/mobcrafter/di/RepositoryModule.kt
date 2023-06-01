@@ -5,15 +5,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import id.ac.unpas.mobcrafter.networks.DataDosenApi
+import id.ac.unpas.mobcrafter.networks.DosenApi
 import id.ac.unpas.mobcrafter.networks.MatakuliahApi
-
-import id.ac.unpas.mobcrafter.persistences.DataDosenDao
-import id.ac.unpas.mobcrafter.persistences.MatakuliahDao
-import id.ac.unpas.mobcrafter.repositories.DataDosenRepository
-
+import id.ac.unpas.mobcrafter.repositories.DosenRepository
 import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
-
 import id.ac.unpas.mobcrafter.repositories.MatakuliahRepository
 
 @Module
@@ -28,10 +23,12 @@ object RepositoryModule {
         return MatakuliahRepository(api, dao)
     }
 
-    fun provideDataDosenRepository(
-        api: DataDosenApi,
-        dao: DataDosenDao
-    ): DataDosenRepository {
-        return DataDosenRepository(api, dao)
+    @Provides
+    @ViewModelScoped
+    fun provideDosenRepository(
+        api: DosenApi,
+        dao: PerkuliahanDao
+    ): DosenRepository {
+        return DosenRepository(api, dao)
     }
 }

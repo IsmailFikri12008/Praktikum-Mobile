@@ -129,10 +129,16 @@ fun MainScreen() {
                 navController = navController, startDestination = "pengelolaan-matakuliah"
             ) {
                 composable("home") {
+                    title.value = "Pengelolaan dosen"
                     HomeScreen()
                 }
-                composable("setting") {
-                    SettingScreen()
+                composable("pengelolaan-dosen") {
+                    title.value = "Pengelolaan dosen"
+                    PengelolaanDosenScreen(
+                        navController = navController,
+                        snackbarHostState = scaffoldState.snackbarHostState,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
                 composable("pengelolaan-matakuliah") {
                     title.value = "Pengelolaan matakuliah"
@@ -142,6 +148,8 @@ fun MainScreen() {
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
+
+
                 composable("tambah-pengelolaan-matakuliah") {
                     title.value = "Tambah Pengelolaan matakuliah"
                     FormPencatatanMatakuliahScreen(

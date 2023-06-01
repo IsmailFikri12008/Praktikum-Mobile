@@ -70,10 +70,8 @@ fun PengelolaanMatakuliahScreen(
     }
     viewModel.toast.observe(LocalLifecycleOwner.current) {
         scope.launch {
-            snackbarHostState.showSnackbar(
-                it, actionLabel =
-                "Tutup", duration = SnackbarDuration.Long
-            )
+            snackbarHostState.showSnackbar(it, actionLabel =
+                "Tutup", duration = SnackbarDuration.Long)
         }
     }
 }

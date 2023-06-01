@@ -1,5 +1,6 @@
 package id.ac.unpas.mobcrafter.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -8,10 +9,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -19,24 +22,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import id.ac.unpas.mobcrafter.model.Pendidikan
 import id.ac.unpas.mobcrafter.ui.theme.Purple700
 import id.ac.unpas.mobcrafter.ui.theme.Teal200
 import kotlinx.coroutines.launch
 
 
+
 @Composable
-fun FormDosen(
+fun FormPencatatanDosenScreen(
     navController : NavHostController,
     id: String? = null,
     modifier: Modifier = Modifier) {
-    val viewModel = hiltViewModel<PengelolaanDataDosenViewModel>()
+
+    val viewModel = hiltViewModel<PengelolaanDosenViewModel>()
     val isLoading = remember { mutableStateOf(false) }
     val buttonLabel = if (isLoading.value) "Mohon tunggu..." else "Simpan"
 
     val nidn = remember { mutableStateOf(TextFieldValue("")) }
     val nama = remember { mutableStateOf(TextFieldValue("")) }
-    val gelarDepan = remember { mutableStateOf(TextFieldValue("")) }
-    val gelarBelakang = remember { mutableStateOf(TextFieldValue("")) }
+    val gelar_depan = remember { mutableStateOf(TextFieldValue("")) }
+    val gelar_belakang = remember { mutableStateOf(TextFieldValue("")) }
+    val pendidikan = remember { mutableStateOf(Pendidikan.S2) }
+
+    val pendidikanOptions = listOf(Pendidikan.S2, Pendidikan.S3)
+
+    val isDropdownOpen = remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
@@ -76,8 +87,8 @@ fun FormDosen(
 
         OutlinedTextField(
             label = { Text(text = "Gelar Depan") },
-            value = gelarDepan.value,
-            onValueChange = { gelarDepan.value = it },
+            value = gelar_depan.value,
+            onValueChange = { gelar_depan.value = it },
             modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth(),
@@ -90,8 +101,8 @@ fun FormDosen(
 
         OutlinedTextField(
             label = { Text(text = "Gelar Belakang") },
-            value = gelarBelakang.value,
-            onValueChange = { gelarDepan.value = it },
+            value = gelar_belakang.value,
+            onValueChange = { gelar_belakang.value = it },
             modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth(),
@@ -101,7 +112,37 @@ fun FormDosen(
             ),
             placeholder = { Text(text = "MT") }
         )
-
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "Pendidikan",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                ),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clickable { isDropdownOpen.value = true }
+            )
+            DropdownMenu(
+                expanded = isDropdownOpen.value,
+                onDismissRequest = { isDropdownOpen.value = false },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp)
+            ) {
+                pendidikanOptions.forEach { pilihanPendidikan ->
+                    DropdownMenuItem(
+                        onClick = {
+                            pendidikan.value = pilihanPendidikan
+                            isDropdownOpen.value = false
+                        }
+                    ) {
+                        Text(text = pilihanPendidikan.name)
+                    }
+                }
+            }
+        }
         val loginButtonColors = ButtonDefaults.buttonColors(
             backgroundColor = Purple700,
             contentColor = Teal200
@@ -117,24 +158,27 @@ fun FormDosen(
                 .fillMaxWidth()
         ) {
             Button(
-                modifier = Modifier.weight(5f),
-                onClick = {
+                modifier = Modifier.weight(5f), onClick = {
                     if (id == null) {
                         scope.launch {
                             viewModel.insert(
                                 nidn.value.text,
                                 nama.value.text,
-                                gelarDepan.value.text,
-                                gelarBelakang.value.text)
+                                gelar_depan.value.text,
+                                gelar_belakang.value.text,
+                                pendidikan.value)
                         }
                     } else {
                         scope.launch {
                             viewModel.update(id,
                                 nidn.value.text,
                                 nama.value.text,
-                                gelarDepan.value.text,
-                                gelarBelakang.value.text) } }
-                    navController.navigate("pengelolaan-data-dosen")
+                                gelar_depan.value.text,
+                                gelar_belakang.value.text,
+                                pendidikan.value)
+                        }
+                    }
+                    navController.navigate("pengelolaan-dosen")
                 }, colors = loginButtonColors) {
                 Text(
                     text = buttonLabel,
@@ -148,8 +192,10 @@ fun FormDosen(
                 onClick = {
                     nidn.value = TextFieldValue("")
                     nama.value = TextFieldValue("")
-                    gelarDepan.value = TextFieldValue("")
-                    gelarBelakang.value = TextFieldValue("")
+                    gelar_depan.value = TextFieldValue("")
+                    gelar_belakang.value = TextFieldValue("")
+                    pendidikan.value = Pendidikan.S2
+
                 }, colors = resetButtonColors) {
                 Text(
                     text = "Reset",
@@ -166,11 +212,12 @@ fun FormDosen(
     }
     if (id != null) {
         LaunchedEffect(scope) {
-            viewModel.loadItem(id) { dataDosen -> dataDosen?.let {
-                nidn.value = TextFieldValue(dataDosen.nidn)
-                nama.value = TextFieldValue(dataDosen.nama)
-                gelarDepan.value = TextFieldValue(dataDosen.gelarDepan)
-                gelarBelakang.value = TextFieldValue(dataDosen.gelarBelakang)
+            viewModel.loadItem(id) { dosen -> dosen?.let {
+                nidn.value = TextFieldValue(dosen.nidn)
+                nama.value = TextFieldValue(dosen.nama)
+                gelar_depan.value = TextFieldValue(dosen.gelar_depan)
+                gelar_belakang.value = TextFieldValue(dosen.gelar_belakang)
+                pendidikan.value = dosen.pendidikan
             }
             }
         }
