@@ -26,53 +26,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import id.ac.unpas.mobcrafter.model.DataDosen
+import id.ac.unpas.mobcrafter.model.Dosen
 import kotlinx.coroutines.launch
 
 @Composable
-fun PengelolaanDataDosenScreen(navController : NavHostController,
+fun PengelolaanDosenScreen(navController : NavHostController,
                                modifier: Modifier = Modifier,
                                snackbarHostState: SnackbarHostState
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val viewModel = hiltViewModel<PengelolaanDataDosenViewModel>()
-
-    val items: List<DataDosen> by viewModel.list.observeAsState(initial = listOf())
-
+    val viewModel = hiltViewModel<PengelolaanDosenViewModel>()
+    val items: List<Dosen> by
+    viewModel.list.observeAsState(initial = listOf())
     Column(modifier = modifier.fillMaxWidth()) {
         Button(onClick = {
-            navController.navigate("tambah-pengelolaan-data-dosen")
+            navController.navigate("tambah-pengelolaan-dosen")
         }) {
             Text(text = "Tambah")
         }
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(items = items, itemContent = { item ->
-                Row(
-                    modifier = Modifier
-                        .padding(15.dp)
-                        .fillMaxWidth().clickable {
-                            navController.navigate("edit-pengelolaan-sampah/${item.id}")
-                        }) {
-                    Column(modifier = Modifier.weight(3f)) {
-                        Text(text = "NIDN", fontSize = 14.sp)
-                        Text(text = item.nama, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                    }
-                    Column(modifier = Modifier.weight(3f)) {
-                        Text(text = "Nama", fontSize = 14.sp)
-                        Text(text = item.nama, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                    }
-                    Column(modifier = Modifier.weight(3f)) {
-                        Text(text = "gelarDepan", fontSize = 14.sp)
-                        Text(text = item.nama, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                    }
-                    Column(modifier = Modifier.weight(3f)) {
-                        Text(text = "gelarBelakang", fontSize = 14.sp)
-                        Text(text = item.nama, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                DosenItem(
+                    item = item, navController =
+                    navController
+                ) {
+                    scope.launch {
+                        viewModel.delete(it)
                     }
                 }
-                Divider(modifier = Modifier.fillMaxWidth())
             })
         }
     }
@@ -87,10 +70,6 @@ fun PengelolaanDataDosenScreen(navController : NavHostController,
             }
         }
     }
-    viewModel.toast.observe(LocalLifecycleOwner.current) {
-        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-    }
-
     viewModel.toast.observe(LocalLifecycleOwner.current) {
         scope.launch {
             snackbarHostState.showSnackbar(it, actionLabel =

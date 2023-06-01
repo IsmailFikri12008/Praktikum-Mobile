@@ -2,6 +2,7 @@ package id.ac.unpas.mobcrafter.persistences
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import id.ac.unpas.mobcrafter.model.Dosen
 import id.ac.unpas.mobcrafter.model.Mahasiswa
 import id.ac.unpas.mobcrafter.model.Matakuliah
 
@@ -29,6 +30,27 @@ interface PerkuliahanDao {
     @Query("DELETE FROM Matakuliah WHERE id = :id")
     suspend fun deleteMatakuliah(id: String)
 
+    // Dosen
+    @Query("SELECT * FROM Dosen")
+    fun loadAllDosen(): LiveData<List<Dosen>>
+
+    @Query("SELECT * FROM Dosen WHERE id = :id")
+    suspend fun findDosen(id: String): Dosen?
+
+    @Query("SELECT * FROM Dosen ORDER BY nidn DESC")
+    suspend fun getListDosen(): List<Dosen>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllDosen(vararg items: Dosen)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllDosen(items: List<Dosen>)
+
+    @Delete
+    fun deleteDosen(item: Dosen)
+
+    @Query("DELETE FROM Dosen WHERE id = :id")
+    fun deleteDosen(id: String)
 
 //    // Mahasiswa
 //    @Query("SELECT * FROM Mahasiswa")

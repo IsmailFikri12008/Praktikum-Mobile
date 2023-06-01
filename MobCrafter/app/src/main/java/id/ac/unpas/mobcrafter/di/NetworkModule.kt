@@ -8,7 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
-import id.ac.unpas.mobcrafter.networks.DataDosenApi
+import id.ac.unpas.mobcrafter.networks.DosenApi
 
 import id.ac.unpas.mobcrafter.networks.MahasiswaApi
 
@@ -58,10 +58,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-
-    fun provideDataDosenApi(retrofit: Retrofit):
-            DataDosenApi {
-        return retrofit.create(DataDosenApi::class.java)
+    fun provideDosenApi(retrofit: Retrofit):
+            DosenApi {
+        return retrofit.create(DosenApi::class.java)
     }
 
 

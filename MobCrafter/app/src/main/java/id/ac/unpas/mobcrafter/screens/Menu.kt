@@ -14,12 +14,16 @@ enum class Menu(
     val route: String
 ) {
     HOME(R.string.home, Icons.Default.Home, "home"),
+
     PENGELOLAAN_MATAKULIAH(
         R.string.pengelolaan_matakuliah,
         Icons.Default.List,
         "pengelolaan-matakuliah"
     ),
-    SETTING(R.string.setting, Icons.Default.Settings, "setting");
+    PENGELOLAAN_DOSEN(
+        R.string.pengelolaan_dosen,
+        Icons.Default.Settings,
+        "pengelolaan-dosen");
 
     companion object {
         fun getTabFromResource(@StringRes resource: Int): Menu {
@@ -27,7 +31,7 @@ enum class Menu(
                 R.string.home -> HOME
                 R.string.pengelolaan_matakuliah ->
                     PENGELOLAAN_MATAKULIAH
-                else -> SETTING
+                else -> PENGELOLAAN_DOSEN
             }
         }
     }

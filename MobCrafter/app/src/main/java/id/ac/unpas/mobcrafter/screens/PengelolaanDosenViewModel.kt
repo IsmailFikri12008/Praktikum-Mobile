@@ -4,30 +4,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.ac.unpas.mobcrafter.model.DataDosen
-import id.ac.unpas.mobcrafter.repositories.DataDosenRepository
+import id.ac.unpas.mobcrafter.model.Dosen
+import id.ac.unpas.mobcrafter.model.Pendidikan
+import id.ac.unpas.mobcrafter.repositories.DosenRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class PengelolaanDataDosenViewModel @Inject constructor(
+class PengelolaanDosenViewModel @Inject constructor(
     private val
-    dataDosenRepository: DataDosenRepository
+    dosenRepository: DosenRepository
 ) : ViewModel() {
-    private val _isLoading: MutableLiveData<Boolean> =
-        MutableLiveData(false)
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
-    private val _success: MutableLiveData<Boolean> =
-        MutableLiveData(false)
+    private val _success: MutableLiveData<Boolean> = MutableLiveData(false)
     val success: LiveData<Boolean> get() = _success
-    private val _toast: MutableLiveData<String> =
-        MutableLiveData()
+    private val _toast: MutableLiveData<String> = MutableLiveData()
     val toast: LiveData<String> get() = _toast
-    private val _list: MutableLiveData<List<DataDosen>> =
-        MutableLiveData()
-    val list: LiveData<List<DataDosen>> get() = _list
+    private val _list: MutableLiveData<List<Dosen>> = MutableLiveData()
+    val list: LiveData<List<Dosen>> get() = _list
+
     suspend fun loadItems() {
         _isLoading.postValue(true)
-        dataDosenRepository.loadItems(onSuccess = {
+        dosenRepository.loadItems(onSuccess = {
             _isLoading.postValue(false)
             _list.postValue(it)
         }, onError = { list, message ->
@@ -41,10 +39,11 @@ class PengelolaanDataDosenViewModel @Inject constructor(
         nidn: String,
         nama: String,
         gelarDepan: String,
-        gelarBelakang: String
+        gelarBelakang: String,
+        pendidikan: Pendidikan
     ) {
         _isLoading.postValue(true)
-        dataDosenRepository.insert(nidn, nama, gelarDepan, gelarBelakang,
+        dosenRepository.insert(nidn, nama, gelarDepan, gelarBelakang,pendidikan,
             onError = { item, message ->
                 _toast.postValue(message)
                 _isLoading.postValue(false)
@@ -55,9 +54,9 @@ class PengelolaanDataDosenViewModel @Inject constructor(
     }
 
     suspend fun loadItem(
-        id: String, onSuccess: (DataDosen?
+        id: String, onSuccess: (Dosen?
         ) -> Unit) {
-        val item = dataDosenRepository.find(id)
+        val item = dosenRepository.find(id)
         onSuccess(item)
     }
     suspend fun update(
@@ -65,11 +64,12 @@ class PengelolaanDataDosenViewModel @Inject constructor(
         nidn: String,
         nama: String,
         gelarDepan: String,
-        gelarBelakang: String
+        gelarBelakang: String,
+        pendidikan: Pendidikan
     ) {
         _isLoading.postValue(true)
-        dataDosenRepository.update(
-            id, nidn, nama, gelarDepan, gelarBelakang,
+        dosenRepository.update(
+            id, nidn, nama, gelarDepan, gelarBelakang,pendidikan,
             onError = { item, message ->
                 _toast.postValue(message)
                 _isLoading.postValue(false)
@@ -79,6 +79,18 @@ class PengelolaanDataDosenViewModel @Inject constructor(
                 _success.postValue(true)
             }
         )
+    }
+    suspend fun delete(id: String) {
+        _isLoading.postValue(true)
+        dosenRepository.delete(id, onError = { message ->
+            _toast.postValue(message)
+            _isLoading.postValue(false)
+            _success.postValue(true)
+        }, onSuccess = {
+            _toast.postValue("Data berhasil dihapus")
+            _isLoading.postValue(false)
+            _success.postValue(true)
+        })
     }
 
 }
