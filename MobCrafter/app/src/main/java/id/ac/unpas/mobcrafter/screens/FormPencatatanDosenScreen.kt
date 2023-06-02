@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -30,10 +31,12 @@ import kotlinx.coroutines.launch
 
 
 @Composable
+@OptIn(ExperimentalComposeUiApi::class)
 fun FormPencatatanDosenScreen(
-    navController : NavHostController,
+    navController: NavHostController,
     id: String? = null,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
 
     val viewModel = hiltViewModel<PengelolaanDosenViewModel>()
     val isLoading = remember { mutableStateOf(false) }
@@ -112,18 +115,19 @@ fun FormPencatatanDosenScreen(
             ),
             placeholder = { Text(text = "MT") }
         )
+
         Box(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "Pendidikan",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                ),
+            OutlinedTextField(
+                value = TextFieldValue(text = pendidikan.value.name),
+                onValueChange = { },
+                label = { Text(text = "Pendidikan") },
+                readOnly = true,
                 modifier = Modifier
                     .padding(4.dp)
+                    .fillMaxWidth()
                     .clickable { isDropdownOpen.value = true }
             )
+
             DropdownMenu(
                 expanded = isDropdownOpen.value,
                 onDismissRequest = { isDropdownOpen.value = false },
@@ -138,11 +142,15 @@ fun FormPencatatanDosenScreen(
                             isDropdownOpen.value = false
                         }
                     ) {
-                        Text(text = pilihanPendidikan.name)
+                        Text(
+                            text = pilihanPendidikan.name,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
         }
+
         val loginButtonColors = ButtonDefaults.buttonColors(
             backgroundColor = Purple700,
             contentColor = Teal200
@@ -166,20 +174,24 @@ fun FormPencatatanDosenScreen(
                                 nama.value.text,
                                 gelar_depan.value.text,
                                 gelar_belakang.value.text,
-                                pendidikan.value)
+                                pendidikan.value
+                            )
                         }
                     } else {
                         scope.launch {
-                            viewModel.update(id,
+                            viewModel.update(
+                                id,
                                 nidn.value.text,
                                 nama.value.text,
                                 gelar_depan.value.text,
                                 gelar_belakang.value.text,
-                                pendidikan.value)
+                                pendidikan.value
+                            )
                         }
                     }
                     navController.navigate("pengelolaan-dosen")
-                }, colors = loginButtonColors) {
+                }, colors = loginButtonColors
+            ) {
                 Text(
                     text = buttonLabel,
                     style = TextStyle(
@@ -188,15 +200,17 @@ fun FormPencatatanDosenScreen(
                     ), modifier = Modifier.padding(8.dp)
                 )
             }
-            Button(modifier = Modifier.weight(5f),
+            Button(
+                modifier = Modifier.weight(5f),
                 onClick = {
                     nidn.value = TextFieldValue("")
                     nama.value = TextFieldValue("")
                     gelar_depan.value = TextFieldValue("")
                     gelar_belakang.value = TextFieldValue("")
                     pendidikan.value = Pendidikan.S2
-
-                }, colors = resetButtonColors) {
+                },
+                colors = resetButtonColors
+            ) {
                 Text(
                     text = "Reset",
                     style = TextStyle(
@@ -207,18 +221,21 @@ fun FormPencatatanDosenScreen(
             }
         }
     }
+
     viewModel.isLoading.observe(LocalLifecycleOwner.current) {
         isLoading.value = it
     }
+
     if (id != null) {
         LaunchedEffect(scope) {
-            viewModel.loadItem(id) { dosen -> dosen?.let {
-                nidn.value = TextFieldValue(dosen.nidn)
-                nama.value = TextFieldValue(dosen.nama)
-                gelar_depan.value = TextFieldValue(dosen.gelar_depan)
-                gelar_belakang.value = TextFieldValue(dosen.gelar_belakang)
-                pendidikan.value = dosen.pendidikan
-            }
+            viewModel.loadItem(id) { dosen ->
+                dosen?.let {
+                    nidn.value = TextFieldValue(dosen.nidn)
+                    nama.value = TextFieldValue(dosen.nama)
+                    gelar_depan.value = TextFieldValue(dosen.gelar_depan)
+                    gelar_belakang.value = TextFieldValue(dosen.gelar_belakang)
+                    pendidikan.value = dosen.pendidikan
+                }
             }
         }
     }
