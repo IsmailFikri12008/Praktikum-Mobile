@@ -167,6 +167,23 @@ fun MainScreen() {
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
+                composable("tambah-pengelolaan-dosen") {
+                    title.value = "Tambah Pengelolaan Dosen"
+                    FormPencatatanDosenScreen(
+                        navController = navController, modifier = Modifier.padding(innerPadding)
+                    )
+                }
+                composable("edit-pengelolaan-dosen/{id}", listOf(navArgument("id") {
+                    type = NavType.StringType
+                })) { backStackEntry ->
+                    title.value = "Edit Pengelolaan Dosen"
+                    val id = backStackEntry.arguments?.getString("id") ?: return@composable
+                    FormPencatatanDosenScreen(
+                        navController = navController,
+                        id = id,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
