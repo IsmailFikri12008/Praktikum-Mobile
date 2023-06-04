@@ -48,7 +48,7 @@ class MatakuliahRepository @Inject constructor(
         kode: String,
         nama: String,
         sks: Byte,
-        praktikum: Boolean,
+        praktikum: Int,
         deskripsi: String,
         onSuccess: (Matakuliah) -> Unit,
         onError: (Matakuliah?, String) -> Unit
@@ -78,7 +78,7 @@ class MatakuliahRepository @Inject constructor(
         kode: String,
         nama: String,
         sks: Byte,
-        praktikum: Boolean,
+        praktikum: Int,
         deskripsi: String,
         onSuccess: (Matakuliah) -> Unit,
         onError: (Matakuliah?, String) -> Unit

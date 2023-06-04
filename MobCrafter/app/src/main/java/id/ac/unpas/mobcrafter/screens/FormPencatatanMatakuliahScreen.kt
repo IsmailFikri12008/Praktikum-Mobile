@@ -124,13 +124,19 @@ fun FormPencatatanMatakuliahScreen(
                 .fillMaxWidth()
         ) {
             Button(modifier = Modifier.weight(5f), onClick = {
+                val praktikumInt : Int
+                praktikumInt = if(praktikum) {
+                    1
+                } else {
+                    0
+                }
                 if (id == null) {
                     scope.launch {
                         viewModel.insert(
                             kode.value.text,
                             nama.value.text,
                             sks.value.text.toByte(),
-                            praktikum,
+                            praktikumInt,
                             deskripsi.value.text
                         )
                     }
@@ -141,7 +147,7 @@ fun FormPencatatanMatakuliahScreen(
                             kode.value.text,
                             nama.value.text,
                             sks.value.text.toByte(),
-                            praktikum,
+                            praktikumInt,
                             deskripsi.value.text
                         )
                     }
@@ -183,7 +189,7 @@ fun FormPencatatanMatakuliahScreen(
                     kode.value = TextFieldValue(matakuliah.kode)
                     nama.value = TextFieldValue(matakuliah.nama)
                     sks.value = TextFieldValue(matakuliah.sks.toString())
-                    praktikum = matakuliah.praktikum
+                    praktikum = matakuliah.praktikum == 1
                     deskripsi.value = TextFieldValue(matakuliah.deskripsi)
                 }
             }
