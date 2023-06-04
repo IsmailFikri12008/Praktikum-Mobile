@@ -37,7 +37,7 @@ class PengelolaanMatakuliahViewModel @Inject constructor(
         kode: String,
         nama: String,
         sks: Byte,
-        praktikum: Boolean,
+        praktikum: Int,
         deskripsi: String
     ) {
         _isLoading.postValue(true)
@@ -64,7 +64,7 @@ class PengelolaanMatakuliahViewModel @Inject constructor(
         kode: String,
         nama: String,
         sks: Byte,
-        praktikum: Boolean,
+        praktikum: Int,
         deskripsi: String
     ) {
         _isLoading.postValue(true)

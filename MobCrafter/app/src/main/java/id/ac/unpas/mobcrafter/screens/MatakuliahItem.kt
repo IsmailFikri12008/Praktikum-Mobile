@@ -71,7 +71,7 @@ fun MatakuliahItem(
             Column(modifier = Modifier.weight(2f)) {
                 Text(text = "Praktikum", fontSize = 12.sp)
                 Text(
-                    text = "${item.praktikum}", fontSize = 14.sp,
+                    text = if (item.praktikum == 1) "YA" else "TIDAK", fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
