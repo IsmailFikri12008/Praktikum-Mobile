@@ -2,6 +2,7 @@ package id.ac.unpas.mobcrafter.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -28,83 +29,59 @@ fun DosenItem(
     var expanded by remember { mutableStateOf(false) }
     val subMenus = listOf("Edit", "Delete")
     val confirmationDialogState = rememberMaterialDialogState()
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier
-                .padding(15.dp)
-                .fillMaxWidth()
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+        elevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "NIDN", fontSize = 12.sp)
-                Text(
-                    text = item.nidn, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Nama", fontSize = 12.sp)
-                Text(
-                    text = item.nama, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Gelar Depan", fontSize = 12.sp)
-                Text(
-                    text = item.gelar_depan, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Gelar Belakang", fontSize = 12.sp)
-                Text(
-                    text = item.gelar_belakang, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Pendidikan", fontSize = 12.sp)
-                Text(text = item.pendidikan.name, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Icon(
-                Icons.Default.MoreVert,
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp)
-                    .padding(8.dp)
-                    .weight(1f, true)
-                    .clickable {
-                        expanded = true
-                    },
-                contentDescription = null,
-                tint = Color.Unspecified
+            Text(
+                text = item.nama,
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold
             )
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            offset = DpOffset(x = (-66).dp, y = (-10).dp)
-        ) {
-            subMenus.forEachIndexed { _, s ->
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    when (s) {
-                        "Edit" -> {
-                            navController.navigate("edit-pengelolaan-dosen/${item.id}")
-                        }
-                        "Delete" -> {
-                            confirmationDialogState.show()
-                        }
-                    }
-                }) {
-                    Text(text = s)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row {
+                Text(text = "NIDN: ")
+                Text(text = item.nidn)
+            }
+            Row {
+                Text(text = "Gelar Depan: ")
+                Text(text = item.gelar_depan)
+            }
+            Row {
+                Text(text = "Gelar Belakang: ")
+                Text(text = item.gelar_belakang)
+            }
+            Row {
+                Text(text = "Pendidikan: ")
+                Text(text = item.pendidikan.name)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(
+                    onClick = { navController.navigate("edit-pengelolaan-dosen/${item.id}") },
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    Text(text = "Edit")
+                }
+                Button(
+                    onClick = { confirmationDialogState.show() }
+                ) {
+                    Text(text = "Delete")
                 }
             }
         }
     }
-    Divider(modifier = Modifier.fillMaxWidth())
+
+
     MaterialDialog(dialogState = confirmationDialogState,
         buttons = {
             positiveButton("Ya", onClick = {

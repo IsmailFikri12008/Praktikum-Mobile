@@ -49,8 +49,8 @@ fun PengelolaanDosenScreen(navController : NavHostController,
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(items = items, itemContent = { item ->
                 DosenItem(
-                    item = item, navController =
-                    navController
+                    item = item,
+                    navController = navController
                 ) {
                     scope.launch {
                         viewModel.delete(it)

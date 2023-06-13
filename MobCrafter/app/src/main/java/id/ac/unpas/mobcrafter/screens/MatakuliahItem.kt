@@ -1,30 +1,15 @@
 package id.ac.unpas.mobcrafter.screens
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.message
@@ -41,84 +26,59 @@ fun MatakuliahItem(
     var expanded by remember { mutableStateOf(false) }
     val subMenus = listOf("Edit", "Delete")
     val confirmationDialogState = rememberMaterialDialogState()
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier
-                .padding(15.dp)
-                .fillMaxWidth()
+    Card(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+    shape = RoundedCornerShape(8.dp),
+    elevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "kode", fontSize = 12.sp)
-                Text(
-                    text = item.kode, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Nama", fontSize = 12.sp)
-                Text(
-                    text = item.nama, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "sks", fontSize = 12.sp)
-                Text(
-                    text = "${item.sks}", fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Praktikum", fontSize = 12.sp)
-                Text(
-                    text = if (item.praktikum == 1) "YA" else "TIDAK", fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column(modifier = Modifier.weight(2f)) {
-                Text(text = "Deskripsi", fontSize = 12.sp)
-                Text(
-                    text = item.deskripsi, fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Icon(
-                Icons.Default.MoreVert,
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp)
-                    .padding(8.dp)
-                    .weight(1f, true)
-                    .clickable {
-                        expanded = true
-                    },
-                contentDescription = null,
-                tint = Color.Unspecified
+            Text(
+                text = item.nama,
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold
             )
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            offset = DpOffset(x = (-66).dp, y = (-10).dp)
-        ) {
-            subMenus.forEachIndexed { _, s ->
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    when (s) {
-                        "Edit" -> {
-                            navController.navigate("edit-pengelolaan-matakuliah/${item.id}")
-                        }
-                        "Delete" -> {
-                            confirmationDialogState.show()
-                        }
-                    }
-                }) {
-                    Text(text = s)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row {
+                Text(text = "Kode: ")
+                Text(text = item.kode)
+            }
+            Row {
+                Text(text = "SKS: ")
+                Text(text = "${item.sks}")
+            }
+            Row {
+                Text(text = "Praktikum: ")
+                Text(text = if (item.praktikum == 1) "YA" else "TIDAK")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = item.deskripsi,
+                style = MaterialTheme.typography.body2
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(
+                    onClick = { navController.navigate("edit-pengelolaan-matakuliah/${item.id}") },
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    Text(text = "Edit")
+                }
+                Button(
+                    onClick = { confirmationDialogState.show() }
+                ) {
+                    Text(text = "Delete")
                 }
             }
         }
     }
-    Divider(modifier = Modifier.fillMaxWidth())
+
     MaterialDialog(dialogState = confirmationDialogState,
         buttons = {
             positiveButton("Ya", onClick = {
@@ -128,6 +88,7 @@ fun MatakuliahItem(
         }) {
         title(text = "Konfirmasi")
         message(
-            text = "Apakah anda yakin ingin menghapus data ?")
+            text = "Apakah anda yakin ingin menghapus data ?"
+        )
     }
 }

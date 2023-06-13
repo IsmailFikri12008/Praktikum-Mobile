@@ -50,7 +50,7 @@ interface PerkuliahanDao {
     fun deleteDosen(item: Dosen)
 
     @Query("DELETE FROM Dosen WHERE id = :id")
-    fun deleteDosen(id: String)
+    suspend fun deleteDosen(id: String)
 
 //    // Mahasiswa
 //    @Query("SELECT * FROM Mahasiswa")
