@@ -63,7 +63,8 @@ object NetworkModule {
         return retrofit.create(DosenApi::class.java)
     }
 
-
+    @Provides
+    @Singleton
     fun provideMahasiswaApi(retrofit: Retrofit):
             MahasiswaApi {
         return retrofit.create(MahasiswaApi::class.java)

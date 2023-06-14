@@ -126,18 +126,11 @@ fun MainScreen() {
             modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             NavHost(
-                navController = navController, startDestination = "pengelolaan-matakuliah"
+                navController = navController, startDestination = "beranda"
             ) {
-                composable("home") {
-                    title.value = "Pengelolaan dosen"
-                    HomeScreen()
-                }
-                composable("pengelolaan-dosen") {
-                    title.value = "Pengelolaan dosen"
-                    PengelolaanDosenScreen(
-                        navController = navController,
-                        snackbarHostState = scaffoldState.snackbarHostState,
-                        modifier = Modifier.padding(innerPadding)
+                composable("beranda") {
+                    title.value = "Halaman Awal"
+                    Beranda(
                     )
                 }
                 composable("pengelolaan-matakuliah") {
@@ -148,7 +141,6 @@ fun MainScreen() {
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
-
 
                 composable("tambah-pengelolaan-matakuliah") {
                     title.value = "Tambah Pengelolaan matakuliah"
@@ -164,6 +156,40 @@ fun MainScreen() {
                     FormPencatatanMatakuliahScreen(
                         navController = navController,
                         id = id,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+                composable("pengelolaan-mahasiswa") {
+                    title.value = "Pengelolaan Mahasiswa"
+                    PengelolaanMahasiswaScreen(
+                        navController = navController,
+                        snackbarHostState = scaffoldState.snackbarHostState,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+
+                composable("tambah-pengelolaan-mahasiswa") {
+                    title.value = "Tambah Pengelolaan Mahasiswa"
+                    FormPencatatanMahasiswaScreen(
+                        navController = navController, modifier = Modifier.padding(innerPadding)
+                    )
+                }
+                composable("edit-pengelolaan-mahasiswa/{id}", listOf(navArgument("id") {
+                    type = NavType.StringType
+                })) { backStackEntry ->
+                    title.value = "Edit Pengelolaan Mahasiswa"
+                    val id = backStackEntry.arguments?.getString("id") ?: return@composable
+                    FormPencatatanMahasiswaScreen(
+                        navController = navController,
+                        id = id,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+                composable("pengelolaan-dosen") {
+                    title.value = "Pengelolaan dosen"
+                    PengelolaanDosenScreen(
+                        navController = navController,
+                        snackbarHostState = scaffoldState.snackbarHostState,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

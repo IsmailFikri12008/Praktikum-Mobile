@@ -14,6 +14,6 @@ data class Mahasiswa(
 )
 
 enum class JenisKelamin {
-    Laki_laki,
-    Perempuan
+    LAKI_LAKI,
+    PEREMPUAN
 }

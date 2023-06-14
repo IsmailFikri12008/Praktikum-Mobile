@@ -130,7 +130,7 @@ fun SettingScreen() {
             ) {
                 composable("home") {
                     title.value = "Pengelolaan dosen"
-                    HomeScreen()
+                    Beranda()
                 }
                 composable("pengelolaan-dosen") {
                     title.value = "Pengelolaan dosen"
