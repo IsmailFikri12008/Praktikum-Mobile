@@ -5,8 +5,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun HomeScreen() {
+fun Beranda() {
     Column {
-        Text(text = "Home")
+        Text(text = "Selamat di aplikasi ini")
     }
 }

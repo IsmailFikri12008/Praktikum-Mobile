@@ -2,7 +2,13 @@ package id.ac.unpas.mobcrafter.networks
 
 import com.skydoves.sandwich.ApiResponse
 import id.ac.unpas.mobcrafter.model.Mahasiswa
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface MahasiswaApi {
     @GET("api/mahasiswa")

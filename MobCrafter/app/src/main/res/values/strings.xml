@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mob Crafter</string>
-    <string name="home">Home</string>
+    <string name="beranda">Halaman Awal</string>
     <string name="pengelolaan_matakuliah">Pengelolaan Matakuliah</string>
+    <string name="pengelolaan_mahasiswa">Pengelolaan Mahasiswa</string>
     <string name="pengelolaan_dosen">Pengelolaan Dosen</string>
 </resources>

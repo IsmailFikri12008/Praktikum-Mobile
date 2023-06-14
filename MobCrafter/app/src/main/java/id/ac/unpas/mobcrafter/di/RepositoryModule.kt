@@ -6,9 +6,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import id.ac.unpas.mobcrafter.networks.DosenApi
+import id.ac.unpas.mobcrafter.networks.MahasiswaApi
 import id.ac.unpas.mobcrafter.networks.MatakuliahApi
 import id.ac.unpas.mobcrafter.repositories.DosenRepository
 import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
+import id.ac.unpas.mobcrafter.repositories.MahasiswaRepository
 import id.ac.unpas.mobcrafter.repositories.MatakuliahRepository
 
 @Module
@@ -31,4 +33,13 @@ object RepositoryModule {
     ): DosenRepository {
         return DosenRepository(api, dao)
     }
+    @Provides
+    @ViewModelScoped
+    fun provideMahasiswaRepository(
+        api: MahasiswaApi,
+        dao: PerkuliahanDao
+    ): MahasiswaRepository {
+        return MahasiswaRepository(api, dao)
+    }
+
 }

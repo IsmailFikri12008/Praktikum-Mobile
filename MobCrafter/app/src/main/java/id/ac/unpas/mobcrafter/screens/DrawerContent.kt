@@ -30,7 +30,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun DrawerContent(onClick: (String) -> Unit) {
     val menus = listOf(
-        Menu.HOME,
+        Menu.BERANDA,
+        Menu.PENGELOLAAN_MAHASISWA,
         Menu.PENGELOLAAN_MATAKULIAH,
         Menu.PENGELOLAAN_DOSEN
     )

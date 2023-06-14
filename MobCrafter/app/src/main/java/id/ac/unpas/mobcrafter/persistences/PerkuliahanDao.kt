@@ -52,25 +52,25 @@ interface PerkuliahanDao {
     @Query("DELETE FROM Dosen WHERE id = :id")
     suspend fun deleteDosen(id: String)
 
-//    // Mahasiswa
-//    @Query("SELECT * FROM Mahasiswa")
-//    fun loadAllMahasiswa(): LiveData<List<Mahasiswa>>
-//
-//    @Query("SELECT * FROM Mahasiswa WHERE id = :id")
-//    suspend fun find(id: String): Mahasiswa?
-//
-//    @Query("SELECT * FROM Mahasiswa ORDER BY kode DESC")
-//    suspend fun getList(): List<Mahasiswa>
-//
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertAll(vararg items: Mahasiswa)
-//
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertAll(items: List<Mahasiswa>)
-//
-//    @Delete
-//    fun delete(item: Mahasiswa)
-//
-//    @Query("DELETE FROM Mahasiswa WHERE id = :id")
-//    suspend fun delete(id: String)
+// Mahasiswa
+    @Query("SELECT * FROM Mahasiswa")
+    fun loadAllMahasiswa(): LiveData<List<Mahasiswa>>
+
+    @Query("SELECT * FROM Mahasiswa WHERE id = :id")
+    suspend fun findMahasiswa(id: String): Mahasiswa?
+
+    @Query("SELECT * FROM Mahasiswa ORDER BY npm DESC")
+    suspend fun getListMahasiswa(): List<Mahasiswa>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllMahasiswa(vararg items: Mahasiswa)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllMahasiswa(items: List<Mahasiswa>)
+
+    @Delete
+    fun deleteMahasiswa(item: Mahasiswa)
+
+    @Query("DELETE FROM Mahasiswa WHERE id = :id")
+    suspend fun deleteMahasiswa(id: String)
 }
