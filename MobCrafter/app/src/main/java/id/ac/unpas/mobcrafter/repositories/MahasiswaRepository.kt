@@ -10,7 +10,6 @@ import id.ac.unpas.mobcrafter.model.JenisKelamin
 import id.ac.unpas.mobcrafter.model.Mahasiswa
 import id.ac.unpas.mobcrafter.networks.MahasiswaApi
 import id.ac.unpas.mobcrafter.persistences.PerkuliahanDao
-import java.util.*
 import javax.inject.Inject
 
 class MahasiswaRepository @Inject constructor(
@@ -49,7 +48,7 @@ class MahasiswaRepository @Inject constructor(
     suspend fun insert(
         npm: String,
         nama: String,
-        tanggal_lahir: Date,
+        tanggal_lahir: String,
         jenis_kelamin : JenisKelamin,
         onSuccess: (Mahasiswa) -> Unit,
         onError: (Mahasiswa?, String) -> Unit
@@ -77,7 +76,7 @@ class MahasiswaRepository @Inject constructor(
         id: String,
         npm: String,
         nama: String,
-        tanggal_lahir: Date,
+        tanggal_lahir: String,
         jenis_kelamin : JenisKelamin,
         onSuccess: (Mahasiswa) -> Unit,
         onError: (Mahasiswa?, String) -> Unit

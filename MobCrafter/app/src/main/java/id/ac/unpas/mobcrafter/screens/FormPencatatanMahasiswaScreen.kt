@@ -45,21 +45,14 @@ fun FormPencatatanMahasiswaScreen(
 
     val npm = remember { mutableStateOf(TextFieldValue("")) }
     val nama = remember { mutableStateOf(TextFieldValue("")) }
-    var tanggal_lahir by remember { mutableStateOf(LocalDate.now()) }
+    val tanggal_lahir = remember { mutableStateOf(TextFieldValue("")) }
     val jenis_kelamin = remember { mutableStateOf(JenisKelamin.LAKI_LAKI) }
-    val jenisKelaminnOptions = listOf(JenisKelamin.LAKI_LAKI,JenisKelamin.PEREMPUAN)
+    val jenisKelaminOptions = listOf(JenisKelamin.LAKI_LAKI,JenisKelamin.PEREMPUAN)
     val tanggalDialogState = rememberMaterialDialogState()
     val isDropdownOpen = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val formattedDate by remember {
-        derivedStateOf {
-            DateTimeFormatter
-                .ofPattern("MM dd yyyy")
-                .format(tanggal_lahir)
-        }
-    }
     Column(
         modifier = Modifier
             .padding(10.dp)
@@ -96,19 +89,17 @@ fun FormPencatatanMahasiswaScreen(
 
         OutlinedTextField(
             label = { Text(text = "Tanggal Lahir") },
-            value = formattedDate,
-            onValueChange = { },
+            value = tanggal_lahir.value,
+            onValueChange = {
+                tanggal_lahir.value = it
+            },
             modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth()
                 .clickable {
                     tanggalDialogState.show()
                 },
-            keyboardOptions = KeyboardOptions(
-                capitalization =
-                KeyboardCapitalization.Characters, keyboardType = KeyboardType.Text
-            ),
-            placeholder = { Text(text = "Pilih Tanggal Lahir") },
+            placeholder = { Text(text = "yyyy-mm-dd") },
             enabled = false
         )
 
@@ -131,7 +122,7 @@ fun FormPencatatanMahasiswaScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp)
             ) {
-                jenisKelaminnOptions.forEach { pilihanJenisKelamin ->
+                jenisKelaminOptions.forEach { pilihanJenisKelamin ->
                     DropdownMenuItem(
                         onClick = {
                             jenis_kelamin.value = pilihanJenisKelamin
@@ -166,7 +157,7 @@ fun FormPencatatanMahasiswaScreen(
                             viewModel.insert(
                                 npm.value.text,
                                 nama.value.text,
-                                Date.from(tanggal_lahir.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                tanggal_lahir.value.text,
                                 jenis_kelamin.value
                             )
                         }
@@ -176,7 +167,7 @@ fun FormPencatatanMahasiswaScreen(
                                 id,
                                 npm.value.text,
                                 nama.value.text,
-                                Date.from(tanggal_lahir.atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                                tanggal_lahir.value.text,
                                 jenis_kelamin.value
                             )
                         }
@@ -197,7 +188,7 @@ fun FormPencatatanMahasiswaScreen(
                 onClick = {
                     npm.value = TextFieldValue("")
                     nama.value = TextFieldValue("")
-                    tanggal_lahir = LocalDate.now()
+                    tanggal_lahir.value = TextFieldValue("")
                     jenis_kelamin.value = JenisKelamin.LAKI_LAKI
                 },
                 colors = resetButtonColors
@@ -212,28 +203,12 @@ fun FormPencatatanMahasiswaScreen(
             }
         }
     }
-    MaterialDialog(
-        dialogState = tanggalDialogState,
-        buttons = {
-            positiveButton(text = "OK"){
-                Toast.makeText(
-                    context,
-                    "Clicked ok",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            negativeButton(text = "Cancel")
-
-        }
-    ) {
-        datepicker(
-            initialDate = LocalDate.now(),
-            title = "Pick a date",
-            allowedDateValidator = {
-                it.dayOfMonth % 2 == 1
-            }
-        ) {
-            tanggal_lahir = it
+    MaterialDialog(dialogState = tanggalDialogState, buttons = {
+        positiveButton("OK")
+        negativeButton("Batal")
+    }) {
+        datepicker { date ->
+            tanggal_lahir.value = TextFieldValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE))
         }
     }
     viewModel.isLoading.observe(LocalLifecycleOwner.current) {
@@ -246,7 +221,7 @@ fun FormPencatatanMahasiswaScreen(
                 mahasiswa?.let {
                     npm.value = TextFieldValue(mahasiswa.npm)
                     nama.value = TextFieldValue(mahasiswa.nama)
-                    tanggal_lahir = mahasiswa.tanggal_lahir.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                    tanggal_lahir.value = TextFieldValue(mahasiswa.tanggal_lahir)
                     jenis_kelamin.value = mahasiswa.jenis_kelamin
                 }
             }

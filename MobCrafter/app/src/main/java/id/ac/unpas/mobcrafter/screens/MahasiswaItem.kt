@@ -19,9 +19,6 @@ import com.vanpra.composematerialdialogs.message
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
 import id.ac.unpas.mobcrafter.model.Mahasiswa
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
 
 @Composable
 fun MahasiswaItem(
@@ -32,7 +29,6 @@ fun MahasiswaItem(
     var expanded by remember { mutableStateOf(false) }
     val subMenus = listOf("Edit", "Delete")
     val confirmationDialogState = rememberMaterialDialogState()
-    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -55,7 +51,7 @@ fun MahasiswaItem(
             }
             Row {
                 Text(text = "Tanggal Lahir: ")
-                Text(text = dateFormat.format(item.tanggal_lahir))
+                Text(text = item.tanggal_lahir)
             }
             Row {
                 Text(text = "Jenis Kelamin: ")

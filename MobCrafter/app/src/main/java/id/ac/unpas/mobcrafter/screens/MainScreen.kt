@@ -1,5 +1,6 @@
 package id.ac.unpas.mobcrafter.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,9 +39,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import id.ac.unpas.mobcrafter.ui.theme.Purple700
+import id.ac.unpas.mobcrafter.ui.theme.Bar
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen() {
     val scope = rememberCoroutineScope()
@@ -51,7 +53,7 @@ fun MainScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                backgroundColor = Purple700, elevation = 0.dp, modifier = Modifier.fillMaxWidth()
+                backgroundColor = Bar, elevation = 0.dp, modifier = Modifier.fillMaxWidth()
             ) {
                 //TopAppBar Content
                 Box(Modifier.height(32.dp)) {
@@ -131,6 +133,8 @@ fun MainScreen() {
                 composable("beranda") {
                     title.value = "Halaman Awal"
                     Beranda(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
                 composable("pengelolaan-matakuliah") {
