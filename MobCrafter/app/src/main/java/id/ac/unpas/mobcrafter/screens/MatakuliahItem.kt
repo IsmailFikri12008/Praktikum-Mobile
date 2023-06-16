@@ -16,6 +16,8 @@ import com.vanpra.composematerialdialogs.message
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
 import id.ac.unpas.mobcrafter.model.Matakuliah
+import id.ac.unpas.mobcrafter.ui.theme.teal2
+import id.ac.unpas.mobcrafter.ui.theme.text1
 
 @Composable
 fun MatakuliahItem(
@@ -26,6 +28,10 @@ fun MatakuliahItem(
     var expanded by remember { mutableStateOf(false) }
     val subMenus = listOf("Edit", "Delete")
     val confirmationDialogState = rememberMaterialDialogState()
+    val ColorsButton = ButtonDefaults.buttonColors(
+        backgroundColor = teal2,
+        contentColor = text1
+    )
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -66,12 +72,14 @@ fun MatakuliahItem(
             ) {
                 Button(
                     onClick = { navController.navigate("edit-pengelolaan-matakuliah/${item.id}") },
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp),
+                    colors = ColorsButton
                 ) {
                     Text(text = "Edit")
                 }
                 Button(
-                    onClick = { confirmationDialogState.show() }
+                    onClick = { confirmationDialogState.show() },
+                    colors = ColorsButton
                 ) {
                     Text(text = "Delete")
                 }
