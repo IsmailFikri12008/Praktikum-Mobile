@@ -31,7 +31,6 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-@OptIn(ExperimentalComposeUiApi::class)
 fun FormPencatatanDosenScreen(
     navController: NavHostController,
     id: String? = null,

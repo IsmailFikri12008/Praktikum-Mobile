@@ -7,7 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.ac.unpas.mobcrafter.model.JenisKelamin
 import id.ac.unpas.mobcrafter.model.Mahasiswa
 import id.ac.unpas.mobcrafter.repositories.MahasiswaRepository
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +37,7 @@ class PengelolaanMahasiswaViewModel @Inject constructor(
     suspend fun insert(
         npm: String,
         nama: String,
-        tanggalLahir: Date,
+        tanggalLahir: String,
         jenisKelamin: JenisKelamin
     ) {
         _isLoading.postValue(true)
@@ -63,7 +62,7 @@ class PengelolaanMahasiswaViewModel @Inject constructor(
         id: String,
         npm: String,
         nama: String,
-        tanggalLahir: Date,
+        tanggalLahir: String,
         jenisKelamin: JenisKelamin
     ) {
         _isLoading.postValue(true)

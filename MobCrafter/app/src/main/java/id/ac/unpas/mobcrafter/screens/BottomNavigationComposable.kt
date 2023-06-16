@@ -11,12 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import id.ac.unpas.mobcrafter.ui.theme.Bar
 
 @Composable
 fun BottomNavigationComposable(title: String, onClick: (Menu) -> Unit) {
     val tabs = Menu.values()
     BottomNavigation(
-        elevation = 15.dp
+        elevation = 15.dp, backgroundColor = Bar
     ) {
         tabs.forEach { tab ->
             BottomNavigationItem(
