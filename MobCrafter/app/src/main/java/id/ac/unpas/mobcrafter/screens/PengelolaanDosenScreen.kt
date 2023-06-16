@@ -8,11 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import id.ac.unpas.mobcrafter.model.Dosen
+import id.ac.unpas.mobcrafter.ui.theme.teal2
+import id.ac.unpas.mobcrafter.ui.theme.text1
 import kotlinx.coroutines.launch
 
 @Composable
@@ -39,10 +37,14 @@ fun PengelolaanDosenScreen(navController : NavHostController,
     val viewModel = hiltViewModel<PengelolaanDosenViewModel>()
     val items: List<Dosen> by
     viewModel.list.observeAsState(initial = listOf())
+    val ColorsButton = ButtonDefaults.buttonColors(
+        backgroundColor = teal2,
+        contentColor = text1
+    )
     Column(modifier = modifier.fillMaxWidth()) {
         Button(onClick = {
             navController.navigate("tambah-pengelolaan-dosen")
-        }) {
+        },colors = ColorsButton) {
             Text(text = "Tambah")
         }
 

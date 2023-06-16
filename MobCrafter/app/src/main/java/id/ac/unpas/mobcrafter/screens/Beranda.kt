@@ -47,6 +47,7 @@ fun Beranda(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(white1)
     ) {
         Column {
             GreetingSection()
@@ -98,10 +99,10 @@ fun DaftarMenu(
     navController: NavHostController,
     id: String? = null,
     modifier: Modifier = Modifier,
-    color: Color = Purple700,
+    color: Color = teal2,
 ) {
     val ColorsButton = ButtonDefaults.buttonColors(
-        backgroundColor = Teal200,
+        backgroundColor = teal3,
         contentColor = text1
     )
 

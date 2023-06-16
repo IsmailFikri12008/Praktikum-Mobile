@@ -40,6 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import id.ac.unpas.mobcrafter.ui.theme.Bar
+import id.ac.unpas.mobcrafter.ui.theme.teal1
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,7 +54,7 @@ fun MainScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                backgroundColor = Bar, elevation = 0.dp, modifier = Modifier.fillMaxWidth()
+                backgroundColor = teal1, elevation = 0.dp, modifier = Modifier.fillMaxWidth()
             ) {
                 //TopAppBar Content
                 Box(Modifier.height(32.dp)) {
