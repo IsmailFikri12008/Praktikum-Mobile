@@ -61,6 +61,12 @@ Akun github dari kelompok 2
 
 ![WhatsApp Image 2023-06-17 at 14 04 23](https://github.com/IsmailFikri12008/Praktikum-Mobile/assets/113658390/81cd4db2-525d-4bb7-ad9c-8ee944c64918)
 
+![WhatsApp Image 2023-06-17 at 14 04 34](https://github.com/IsmailFikri12008/Praktikum-Mobile/assets/113658390/6c41b048-f090-450f-ab3a-8c287e4d152e)
+
+![WhatsApp Image 2023-06-17 at 14 04 46](https://github.com/IsmailFikri12008/Praktikum-Mobile/assets/113658390/37f836cc-bdc6-4828-b96b-f81085f40673)
+
+![WhatsApp Image 2023-06-17 at 14 04 56](https://github.com/IsmailFikri12008/Praktikum-Mobile/assets/113658390/6a159dfe-e388-48e7-a4f2-dff28841c2e2)
+
 
 #### Thanks To
 - Mr. Ade Sukendar
