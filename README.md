@@ -12,7 +12,7 @@
 
 #### Tema Tugas Besar
 Membuat aplikasi yang dapat mengelola 3 entitas, kemudian data bisa disimpan di server dan di device dengan menggunakan Scaffold dengan menu drawer dan bottom sheet.
-Adapun tema yang dikerjakan adalah Perkuliahan yang memiliki entitas Dosen, Mahasiswa dan Matakuliah.SO
+Adapun tema yang dikerjakan adalah Perkuliahan yang memiliki entitas Dosen, Mahasiswa dan Matakuliah.
 
 ### Software
 Software yang digunakan adalah Android Studio. Yang dimana Andorid Studio adalah Integrated Development Environment (IDE) resmi untuk pengembangan aplikasi Android dan menggunakan bahasa Pemrograman Kotlin.
@@ -59,11 +59,15 @@ Akun github dari kelompok 2
 | Ismail | https://github.com/IsmailFikri12008 |
 | Rifky |  |
 
+![WhatsApp Image 2023-06-17 at 14 04 23](https://github.com/IsmailFikri12008/Praktikum-Mobile/assets/113658390/81cd4db2-525d-4bb7-ad9c-8ee944c64918)
+
+
 #### Thanks To
 - Mr. Ade Sukendar
 - Bayu
 - Fauzan
-- Rizky 
+- Rizky
+- Taufik Nur Sidik 
 
 #### Licences
 © 2023 Kelompok 2. All rights reserved.
