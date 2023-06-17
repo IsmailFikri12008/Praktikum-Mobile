@@ -38,7 +38,7 @@ class PengelolaanMahasiswaViewModel @Inject constructor(
         npm: String,
         nama: String,
         tanggalLahir: String,
-        jenisKelamin: JenisKelamin
+        jenisKelamin: String
     ) {
         _isLoading.postValue(true)
         mahasiswaRepository.insert(npm, nama, tanggalLahir, jenisKelamin,
@@ -63,7 +63,7 @@ class PengelolaanMahasiswaViewModel @Inject constructor(
         npm: String,
         nama: String,
         tanggalLahir: String,
-        jenisKelamin: JenisKelamin
+        jenisKelamin: String
     ) {
         _isLoading.postValue(true)
         mahasiswaRepository.update(

@@ -20,8 +20,9 @@ import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
 import id.ac.unpas.mobcrafter.model.Mahasiswa
 import id.ac.unpas.mobcrafter.ui.theme.teal2
-import id.ac.unpas.mobcrafter.ui.theme.teal3
 import id.ac.unpas.mobcrafter.ui.theme.text1
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun MahasiswaItem(
@@ -32,6 +33,7 @@ fun MahasiswaItem(
     var expanded by remember { mutableStateOf(false) }
     val subMenus = listOf("Edit", "Delete")
     val confirmationDialogState = rememberMaterialDialogState()
+    val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
     val ColorsButton = ButtonDefaults.buttonColors(
         backgroundColor = teal2,
         contentColor = text1
@@ -62,7 +64,7 @@ fun MahasiswaItem(
             }
             Row {
                 Text(text = "Jenis Kelamin: ")
-                Text(text = item.jenis_kelamin.name)
+                Text(text = item.jenis_kelamin)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
