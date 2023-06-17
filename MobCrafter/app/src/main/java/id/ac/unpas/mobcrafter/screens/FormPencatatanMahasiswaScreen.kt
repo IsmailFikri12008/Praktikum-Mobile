@@ -7,7 +7,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -28,10 +27,10 @@ import id.ac.unpas.mobcrafter.model.JenisKelamin
 import id.ac.unpas.mobcrafter.ui.theme.Purple700
 import id.ac.unpas.mobcrafter.ui.theme.Teal200
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Date
+import java.util.*
 
 @Composable
 fun FormPencatatanMahasiswaScreen(
@@ -45,12 +44,18 @@ fun FormPencatatanMahasiswaScreen(
 
     val npm = remember { mutableStateOf(TextFieldValue("")) }
     val nama = remember { mutableStateOf(TextFieldValue("")) }
-    val tanggal_lahir = remember { mutableStateOf(TextFieldValue("")) }
-    val jenis_kelamin = remember { mutableStateOf(JenisKelamin.LAKI_LAKI) }
+    var tanggal_lahir by remember { mutableStateOf("") }
+    var jenis_kelamin by remember { mutableStateOf(JenisKelamin.LAKI_LAKI) }
     val jenisKelaminOptions = listOf(JenisKelamin.LAKI_LAKI,JenisKelamin.PEREMPUAN)
     val tanggalDialogState = rememberMaterialDialogState()
     val isDropdownOpen = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    val formattedDate by remember {
+        derivedStateOf {
+            tanggal_lahir.format(DateTimeFormatter.ofPattern("MMM dd yyyy"))
+        }
+    }
     val context = LocalContext.current
 
     Column(
@@ -89,10 +94,8 @@ fun FormPencatatanMahasiswaScreen(
 
         OutlinedTextField(
             label = { Text(text = "Tanggal Lahir") },
-            value = tanggal_lahir.value,
-            onValueChange = {
-                tanggal_lahir.value = it
-            },
+            value = formattedDate,
+            onValueChange = {},
             modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth()
@@ -103,40 +106,11 @@ fun FormPencatatanMahasiswaScreen(
             enabled = false
         )
 
-        Box(modifier = Modifier.fillMaxWidth()) {
-            OutlinedTextField(
-                value = TextFieldValue(text = jenis_kelamin.value.name),
-                onValueChange = { },
-                label = { Text(text = "Tanggal Lahir") },
-                readOnly = true,
-                modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-                    .clickable { isDropdownOpen.value = true }
+            EnumRadioGroup(
+                selectedValue = jenis_kelamin,
+                onValueSelected = { selectedJenisKelamin -> jenis_kelamin = selectedJenisKelamin }
             )
 
-            DropdownMenu(
-                expanded = isDropdownOpen.value,
-                onDismissRequest = { isDropdownOpen.value = false },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp)
-            ) {
-                jenisKelaminOptions.forEach { pilihanJenisKelamin ->
-                    DropdownMenuItem(
-                        onClick = {
-                            jenis_kelamin.value = pilihanJenisKelamin
-                            isDropdownOpen.value = false
-                        }
-                    ) {
-                        Text(
-                            text = pilihanJenisKelamin.name,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-        }
         val loginButtonColors = ButtonDefaults.buttonColors(
             backgroundColor = Purple700,
             contentColor = Teal200
@@ -157,7 +131,7 @@ fun FormPencatatanMahasiswaScreen(
                             viewModel.insert(
                                 npm.value.text,
                                 nama.value.text,
-                                tanggal_lahir.value.text,
+                                tanggal_lahir,
                                 jenis_kelamin.value
                             )
                         }
@@ -167,7 +141,7 @@ fun FormPencatatanMahasiswaScreen(
                                 id,
                                 npm.value.text,
                                 nama.value.text,
-                                tanggal_lahir.value.text,
+                                tanggal_lahir,
                                 jenis_kelamin.value
                             )
                         }
@@ -188,8 +162,6 @@ fun FormPencatatanMahasiswaScreen(
                 onClick = {
                     npm.value = TextFieldValue("")
                     nama.value = TextFieldValue("")
-                    tanggal_lahir.value = TextFieldValue("")
-                    jenis_kelamin.value = JenisKelamin.LAKI_LAKI
                 },
                 colors = resetButtonColors
             ) {
@@ -203,12 +175,25 @@ fun FormPencatatanMahasiswaScreen(
             }
         }
     }
-    MaterialDialog(dialogState = tanggalDialogState, buttons = {
-        positiveButton("OK")
-        negativeButton("Batal")
-    }) {
-        datepicker { date ->
-            tanggal_lahir.value = TextFieldValue(date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+    MaterialDialog(
+        dialogState = tanggalDialogState,
+        buttons = {
+            positiveButton(text = "Ok") {
+                Toast.makeText(
+                    context,
+                    "Clicked ok",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            negativeButton(text = "Cancel")
+        }
+    ) {
+        datepicker(
+            initialDate = LocalDate.now(),
+            title = "Pick a date",
+
+            ) {
+            tanggal_lahir = it.format(formatter)
         }
     }
     viewModel.isLoading.observe(LocalLifecycleOwner.current) {
@@ -221,11 +206,44 @@ fun FormPencatatanMahasiswaScreen(
                 mahasiswa?.let {
                     npm.value = TextFieldValue(mahasiswa.npm)
                     nama.value = TextFieldValue(mahasiswa.nama)
-                    tanggal_lahir.value = TextFieldValue(mahasiswa.tanggal_lahir)
-                    jenis_kelamin.value = mahasiswa.jenis_kelamin
+                    tanggal_lahir = mahasiswa.tanggal_lahir
+                    jenis_kelamin = JenisKelamin.valueOf(mahasiswa.jenis_kelamin.replace("-", "_").toUpperCase())
                 }
             }
         }
     }
-
+}
+fun formatDateToString(date: Date): String {
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    return dateFormat.format(date)
+}
+@Composable
+fun EnumRadioGroup(
+    selectedValue: JenisKelamin,
+    onValueSelected: (JenisKelamin) -> Unit
+) {
+    Row (modifier = Modifier.fillMaxWidth()) {
+        JenisKelamin.values().forEach { jenis_kelamin ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .clickable { onValueSelected(jenis_kelamin) }
+            ) {
+                RadioButton(
+                    selected = jenis_kelamin == selectedValue,
+                    onClick = { onValueSelected(jenis_kelamin) }
+                )
+                Text(
+                    text = jenis_kelamin.name,
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 14.sp
+                    ),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+        }
+    }
 }

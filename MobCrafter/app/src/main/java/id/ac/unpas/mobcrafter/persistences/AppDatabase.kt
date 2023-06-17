@@ -6,7 +6,7 @@ import id.ac.unpas.mobcrafter.model.Dosen
 import id.ac.unpas.mobcrafter.model.Mahasiswa
 import id.ac.unpas.mobcrafter.model.Matakuliah
 
-@Database(entities = [Matakuliah::class, Dosen::class, Mahasiswa::class], version = 14)
+@Database(entities = [Matakuliah::class, Dosen::class, Mahasiswa::class], version = 25)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun perkuliahanDao(): PerkuliahanDao
 }
